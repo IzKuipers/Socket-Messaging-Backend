@@ -1,3 +1,3 @@
 import { startServer } from "./server/main";
 
-startServer();
+startServer(1942);
