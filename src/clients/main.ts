@@ -1,0 +1,34 @@
+import { server } from "./../server/main";
+export const clients: string[] = [];
+
+export function registerClient(client: string) {
+  console.log(`registerClient: ${client} has connected.`);
+  if (!clients.includes(client)) {
+    clients.push(client);
+
+    broadcastClientPresence(client);
+
+    return true;
+  }
+
+  return false;
+}
+
+export function removeClient(client: string) {
+  console.log(`removeClient: ${client} has disconnected.`);
+  for (let i = 0; i < clients.length; i++) {
+    if (clients[i] == client) {
+      clients.splice(i, 1);
+
+      broadcastClientPresence(client);
+
+      return true;
+    }
+  }
+
+  return false;
+}
+
+export function broadcastClientPresence(client: string) {
+  server.emit("update-presence", clients, client);
+}
