@@ -1,14 +1,13 @@
-import { authorize, createUser } from "../user/auth";
+import createUser from "./store/auth/createUser";
+import getUserData from "./store/auth/getUserData";
+import login from "./store/auth/login";
 
 export type ListenCb = (valid: boolean) => void;
+export type Listener = (...args: any[]) => void;
+export type ListenStoreType = { [key: string]: Listener };
 
-export const ListenStore: {
-  [key: string]: (...args: any[]) => void;
-} = {
-  login: async (user: string, pswd: string, cb: ListenCb) => {
-    cb(await authorize(user, pswd));
-  },
-  createUser: async (user: string, pswd: string, cb: ListenCb) => {
-    cb(await createUser(user, pswd));
-  },
+export const ListenStore: ListenStoreType = {
+  login,
+  createUser,
+  getUserData,
 };
