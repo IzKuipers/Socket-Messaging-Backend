@@ -26,11 +26,17 @@ export async function setUsers(users: Player[]) {
   }
 }
 
-export async function getUser(username: string) {
+export async function getUser(username: string, forExternal = false) {
   const users = await getUsers();
 
   for (let i = 0; i < users.length; i++) {
-    if (users[i].name == username) return users[i];
+    if (users[i].name == username) {
+      const user = users[i];
+
+      if (forExternal) delete user.password;
+
+      return user;
+    }
   }
 
   return null;
